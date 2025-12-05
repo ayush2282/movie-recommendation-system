@@ -9,13 +9,18 @@ def vectorize_tags(movies):
 if __name__ == "__main__":
     movies = pd.read_csv("data/movies.csv")
 
-    # FIX: genres should be split first
+    # 1. genres -> list
     movies["genres"] = movies["genres"].apply(lambda x: x.split("|"))
 
-    # FIX: tags should join the list
+    # 2. list -> string
     movies["tags"] = movies["genres"].apply(lambda x: " ".join(x))
+
+    # 3. ADD TITLES into tags (NEW)
+    movies["tags"] = movies["title"] + " " + movies["tags"]
+
+    # debug prints
+    print(movies["tags"].head())
 
     vectors, cv = vectorize_tags(movies)
     print("Vectors shape:", vectors.shape)
-
-
+    print("Vocabulary size:", len(cv.get_feature_names_out()))
