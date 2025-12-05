@@ -1,7 +1,11 @@
-from recommender import recommend_movies
+from recommender_engine import build_model, recommend
 
 if __name__ == "__main__":
-    movies = ["Inception", "Interstellar", "The Dark Knight"]
-    print("Top Movie Recommendations (Master + Branch 1)")
-    for movie, rating in recommend_movies(movies):
-        print(f"- {movie} (Rating: {rating}/5)")
+    movies, similarity = build_model()
+
+    movie_name = input("Enter a movie name: ")
+    results = recommend(movie_name, movies, similarity)
+
+    print("\n Recommended Movies: ")
+    for movie in results:
+        print("-" + movie)
