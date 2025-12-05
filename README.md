@@ -34,15 +34,15 @@ Enter a movie name: interstellar
 
 
 ## 🏗 Project Structure
-movie-recommendation-git/
-├── data/
-│ ├── movies.csv
-│ └── ratings.csv
-├── src/
-│ ├── main.py
-│ ├── data_loader.py
-│ ├── preprocess.py
-│ ├── vectorizer.py
-│ ├── similarity.py
-│ └── recommender_engine.py
-└── README.md
+movie-recommendation-git/  
+├── data/. 
+│ ├── movies.csv  
+│ └── ratings.csv  
+├── src/  
+│ ├── main.py  
+│ ├── data_loader.py  
+│ ├── preprocess.py  
+│ ├── vectorizer.py  
+│ ├── similarity.py  
+│ └── recommender_engine.py  
+└── README.md  
