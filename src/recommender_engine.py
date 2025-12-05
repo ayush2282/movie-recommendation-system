@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from difflib import get_close_matches
 
 def build_model():
     movies = pd.read_csv("data/movies.csv")
@@ -19,23 +20,28 @@ def build_model():
 
     return movies, similarity
 
+
 def recommend(movie_name, movies, similarity):
-    # 1. Find index of the movie
+
+    # find closest match
     movie_name = movie_name.lower()
-    movie_index = movies[movies['title'].str.lower() == movie_name].index
+    titles = movies['title'].str.lower().tolist()
+    close_matches = get_close_matches(movie_name, titles, n=1, cutoff=0.6)
 
-    if len(movie_index) == 0:
-        return ["Movie not found! Check spelling."]
+    if not close_matches:
+        return ["Movie not found! Try another name."]
 
-    movie_index = movie_index[0]
+    # get the best match
+    best_match = close_matches[0]
+    movie_index = movies[movies['title'].str.lower() == best_match].index[0]
 
-    # 2. Fetch similarity scores
+    # similarity scores
     distances = similarity[movie_index]
 
-    # 3. Sort and get top 5 recommendations
+    # top 5 recommendations
     movies_list = sorted(
-        list(enumerate(distances)), 
-        key=lambda x: x[1], 
+        list(enumerate(distances)),
+        key=lambda x: x[1],
         reverse=True
     )[1:6]
 
@@ -45,6 +51,7 @@ def recommend(movie_name, movies, similarity):
         recommended.append(movies.iloc[i[0]].title)
 
     return recommended
+
 
 if __name__ == "__main__":
     movies, similarity = build_model()
